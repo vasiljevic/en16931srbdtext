@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://mfin.gov.rs/srbdt/srbdtext"
+	        targetNamespace="http://mfin.gov.rs/srbdt/srbdtext"
+		    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		    xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+            xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+	
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+				schemaLocation="../common/UBL-CommonAggregateComponents-2.1.xsd"/>
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+				schemaLocation="../common/UBL-CommonBasicComponents-2.1.xsd"/>
+	
+	<xsd:annotation>
+		<xsd:documentation xml:lang="sr-latn">
+			Specifikacija ekstenzije za elektronske fakture u unutrašnjem prometu u Republici Srbiji
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="SrbDtExt" type="SrbDtExtType"/>
+	<xsd:element name="InvoicedPrepaymentAmmount" type="InvoicedPrepaymentAmmountType"/>
+	<xsd:element name="ReducedTotals" type="ReducedTotalsType"/>
+
+	<xsd:complexType name="InvoicedPrepaymentAmmountType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="sr-latn">
+				Specifikacija iskorišćenog dela avansnog iznosa sa određene avansne fakture
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="sr-latn">
+						Broj avansne fakture isto kako je naveden u InvoiceDocumentReference
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:TaxTotal" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="sr-latn">
+						Iskorišćeni deo avansnih iznosa osnovica i poreza razvrstano po poreskim kategorijama
+						(u okviru ugnježdenih TaxSubtotal elemenata)
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ReducedTotalsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="sr-latn">
+				Totali umanjeni za specificirane avansne iznose
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="cac:TaxTotal" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:LegalMonetaryTotal" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SrbDtExtType">
+		<xsd:sequence>
+			<xsd:element ref="InvoicedPrepaymentAmmount" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="ReducedTotals" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>
